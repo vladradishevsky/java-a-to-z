@@ -1,0 +1,13 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>radishevsky</groupId>
+	<artifactId>chapter_001</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>lesson_2</module>
+		<module>lesson_3</module>
+		<module>lesson_4</module>
+	</modules>
+</project>
