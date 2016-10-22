@@ -12,6 +12,10 @@ public class Triangle
 	public Point b;
 	public Point c;
 	
+	
+	/** 
+	  * Конструкторы
+	**/
 	public Triangle()
 	{
 		this.a = new Point(0. , 0.);

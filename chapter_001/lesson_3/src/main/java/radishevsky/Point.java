@@ -3,14 +3,18 @@ package radishevsky;
 	/** 
 	  * Class Point точка
 	  * @author vladradishevsky
-	  * @since 18/10/2016
-	  * @version 1.0
+	  * @since 22/10/2016
+	  * @version 1.1
 	**/
 public class Point 
 {
 	public double x;
 	public double y;
 
+	
+	/** 
+	  * Конструкторы
+	**/
 	public Point(double x, double y) 
 	{
 		this.x = x;
