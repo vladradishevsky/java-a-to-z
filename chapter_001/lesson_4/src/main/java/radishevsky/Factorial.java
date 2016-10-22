@@ -17,7 +17,7 @@ public class Factorial {
 	private static HashMap<Integer,BigInteger> factorials = new HashMap<Integer,BigInteger>();
 
 	/**
-	 * Контруктор
+	 * Конструктор
 	**/
 	public Factorial() {
 		factorials.put(0, BigInteger.ONE);
