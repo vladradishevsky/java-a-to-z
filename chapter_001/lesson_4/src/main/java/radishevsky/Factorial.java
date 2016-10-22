@@ -8,7 +8,7 @@ import java.util.HashMap;
   * Class Factorial для вычисления факториала
   * @author vladradishevsky
   * @since 22.10.2016
-  * @version 1.1
+  * @version 1.2
 **/
 public class Factorial {
 	/**
@@ -30,8 +30,9 @@ public class Factorial {
 	{
 		Factorial factorial = new Factorial();
 		int n = Integer.valueOf(args[0]);
+		if (n >= 0) System.out.println("Fact[" + n + "] = " + factorial.getFactorial(n));
+		else System.out.println("[Error]: factorial must be from possitive number or zero.");
 		
-		System.out.println("Fact[" + n + "] = " + factorial.getFactorial(n));
 	}
 	
 	/** 
