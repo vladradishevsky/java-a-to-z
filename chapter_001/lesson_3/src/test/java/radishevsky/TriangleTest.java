@@ -13,6 +13,7 @@ public class TriangleTest {
 		Triangle triangle = new Triangle(new Point(0., 0.), new Point(0., 1.), new Point(1., 0.));
 		assertThat(new BigDecimal(triangle.area()).setScale(5, BigDecimal.ROUND_HALF_UP), is((new BigDecimal(0.5)).setScale(5, BigDecimal.ROUND_HALF_UP)));
 	}
+	
 	@Test
 	public void whenTriangleCantExistThenReturnZero() {
 		

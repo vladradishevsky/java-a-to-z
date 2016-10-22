@@ -11,12 +11,14 @@ public class PointTest {
 
 		assertThat((new Point(1., 0.)).distanceTo(new Point(0., 0.)), is(1.));
 	}
+	
 	@Test
 	public void whenDistanceToThisPointThenReturnZero() {
 		
 		final Point point = new Point(50.45, 50.45);
 		assertThat(point.distanceTo(point), is(0.));
 	}
+	
 	@Test
 	public void whenDistanceToEqualPointThenReturnZero() {
 		

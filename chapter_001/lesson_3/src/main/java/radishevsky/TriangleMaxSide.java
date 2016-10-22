@@ -14,7 +14,7 @@ public class TriangleMaxSide {
 	  * @param Point[] - точки-вершины геометрической фигуры по порядку
 	  * @return double наибольшую сторону фигуры
 	**/
-	public double maxSide(Point[] points) {
+	public double maxSide(Point... points) {
 		if (points.length < 2) return 0.;
 		
 		double temp, maxSide = 0.;
