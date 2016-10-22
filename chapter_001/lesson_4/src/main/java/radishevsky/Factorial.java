@@ -8,10 +8,12 @@ import java.util.HashMap;
   * Class Factorial для вычисления факториала
   * @author vladradishevsky
   * @since 22.10.2016
-  * @version 1.0
+  * @version 1.1
 **/
 public class Factorial {
-	
+	/**
+	 * Поле класса
+	**/
 	private static HashMap<Integer,BigInteger> factorials = new HashMap<Integer,BigInteger>();
 
 	/**
