@@ -3,12 +3,26 @@ package radishevsky;
 /** 
   * Class Square для работы с квадратными уравнениями y=ax^2 + bx + c
   * @author vladradishevsky
-  * @since 20.10.2016
-  * @version 1.0
+  * @since 23.10.2016
+  * @version 1.1
 **/
 	
 public class Square {
-	private double a=0., b=0., c=0.;
+	/**
+	 * Параметры функции ax^2 + bx + c
+	 * по умолчанию 0
+	**/
+	private double a=0d, b=0d, c=0d;
+	
+	/**
+	 * Конструктор(ы)
+	**/
+	public Square(double a, double b, double c) {
+		this.a = a;
+		this.b = b;
+		this.c = c;
+	}
+	
 	
 	/** 
 	  * Вычисляет значение квадратичной функции
@@ -35,24 +49,17 @@ public class Square {
 			return;
 		}
 	
-		
 		while(start < finish)
 		{
-			System.out.println("x: " + start + " y: " + calculate(start));
+			System.out.printf("x: %d y: %.4f\n", start, calculate(start));
 			start = start + step;
 		}
-		if (start>=finish) 
-		{
-			System.out.println("x: " + finish + " y: " + calculate(finish));	
-		}
+		if (start>=finish) System.out.printf("x: %d y: %.4f\n", finish, calculate(finish));
 	}
 	
-	public Square(double a, double b, double c) {
-		this.a = a;
-		this.b = b;
-		this.c = c;
-	}
-	
+	/**
+	 * Getters
+	**/
 	public double getA() {
 		return this.a;
 	}
@@ -62,14 +69,5 @@ public class Square {
 	public double getC() {
 		return this.c;
 	}
-	
-	/** 
-	  * Метод main
-	**/
-	public static void main(String[] args) {
-		Square square = new Square(Double.valueOf(args[0]), Double.valueOf(args[1]), Double.valueOf(args[2]));
-		square.show(Integer.valueOf(args[3]), Integer.valueOf(args[4]), Integer.valueOf(args[5]));
-	}
-	
 	
 }
