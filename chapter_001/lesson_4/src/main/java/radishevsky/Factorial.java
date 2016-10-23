@@ -1,53 +1,29 @@
 package radishevsky;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-
 
 /** 
   * Class Factorial для вычисления факториала
   * @author vladradishevsky
-  * @since 22.10.2016
-  * @version 1.2
+  * @since 23.10.2016
+  * @version 1.3
 **/
 public class Factorial {
-	/**
-	 * Поле класса
-	**/
-	private static HashMap<Integer,BigInteger> factorials = new HashMap<Integer,BigInteger>();
-
-	/**
-	 * Конструктор
-	**/
-	public Factorial() {
-		factorials.put(0, BigInteger.ONE);
-	}
+	
 	
 	/** 
-	 * main
-	**/
-	public static void main(String[] args)
-	{
-		Factorial factorial = new Factorial();
-		int n = Integer.valueOf(args[0]);
-		if (n >= 0) System.out.println("Fact[" + n + "] = " + factorial.getFactorial(n));
-		else System.out.println("[Error]: factorial must be from possitive number or zero.");
-		
-	}
-	
-	/** 
-	  * Вычисляет значение факториала от числа n
-	  * @param int n
+	  * Вычисляет значение факториала от числа num
+	  * @param int num
 	  * @return BigInteger
 	**/
-	public BigInteger getFactorial(int n)
+	public int getFactorial(int num)
 	{
-		BigInteger result;
-		
-		if (this.factorials.get(n) != null) return this.factorials.get(n);
-		
-		result = BigInteger.valueOf(n).multiply(getFactorial(n-1));
-		factorials.put(n, result);
+		if (num < 2) {
+			if (num < 0) return 0;
+			else return 1;
+		}
+		int result = 1;
+		for (int index = 2; index <= num; index++) result *= index;
+
 		return result;
 	}	
 }

@@ -3,32 +3,37 @@ package radishevsky;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
-import java.math.BigInteger;
 
 /** 
   * Class FactorialTest
   * @author vladradishevsky
-  * @since 22.10.2016
-  * @version 1.1
+  * @since 23.10.2016
+  * @version 1.2
 **/
 public class FactorialTest {
 
 	@Test
-	public void whenParamIsZeroThenReturnZero() {
+	public void whenParamIsNegativeThenReturnZero() {
 		Factorial factorial = new Factorial();
-		assertEquals(factorial.getFactorial(0), new BigInteger("1"));
+		assertThat(factorial.getFactorial(-1), is(0));
+	}
+
+	@Test
+	public void whenParamIsZeroThenReturnOne() {
+		Factorial factorial = new Factorial();
+		assertThat(factorial.getFactorial(0), is(1));
 	}
 	
 	@Test
 	public void whenParamIsOneThenReturnOne() {
 		Factorial factorial = new Factorial();
-		assertEquals(factorial.getFactorial(1), new BigInteger("1"));
+		assertThat(factorial.getFactorial(1), is(1));
 	}
 	
 	@Test
 	public void whenParamIsTenThenReturnCorrectResult() {
 		Factorial factorial = new Factorial();
-		assertEquals(factorial.getFactorial(10), new BigInteger("3628800"));
+		assertThat(factorial.getFactorial(10), is(3628800));
 	}
 	
 	
