@@ -4,7 +4,7 @@ package radishevsky;
   * Class ArraySort для сортировки массивов
   * @author vladradishevsky
   * @since 23.10.2016
-  * @version 1.0
+  * @version 1.0 fixed
 **/
 public class ArraySort {
 
@@ -47,7 +47,7 @@ public class ArraySort {
 					isSwapped = true;
 				}
 			}
-			if (isSwapped) break;
+			if (!isSwapped) break;
 		}
 		
 	}

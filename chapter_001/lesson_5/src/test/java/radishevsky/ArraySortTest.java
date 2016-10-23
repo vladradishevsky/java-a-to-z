@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
   * Class ArraySortTest
   * @author vladradishevsky
   * @since 23.10.2016
-  * @version 1.0
+  * @version 1.0 fixed
 **/
 public class ArraySortTest {
 
@@ -26,6 +26,14 @@ public class ArraySortTest {
 		array.BubbleSort();
 		
 		assertThat(array.getValues(), is(new int[]{1, 2, 3, 4, 5}));
+	}
+
+	@Test
+	public void whenArrayIsNotSortedThenReturnSorted() {
+		ArraySort array = new ArraySort(new int[]{3, 1, 2, 5, 4, 10, 9, 8, 7, 6});
+		array.BubbleSort();
+		
+		assertThat(array.getValues(), is(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
 	}
 	
 }
