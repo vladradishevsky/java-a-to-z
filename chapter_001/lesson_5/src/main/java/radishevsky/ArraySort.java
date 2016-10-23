@@ -4,7 +4,7 @@ package radishevsky;
   * Class ArraySort для сортировки массивов
   * @author vladradishevsky
   * @since 23.10.2016
-  * @version 1.0 fixed
+  * @version 1.0 fix2
 **/
 public class ArraySort {
 
@@ -34,7 +34,7 @@ public class ArraySort {
 	/** 
 	  * Сортирует массив int[] values методом пузырька
 	**/
-	public void BubbleSort()
+	public void bubbleSort()
 	{
 		boolean isSwapped;
 		for (int i=0; i < values.length - 1; i++) {
