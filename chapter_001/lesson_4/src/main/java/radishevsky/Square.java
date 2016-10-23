@@ -23,6 +23,18 @@ public class Square {
 		this.c = c;
 	}
 	
+	/**
+	 * Getters
+	**/
+	public double getA() {
+		return this.a;
+	}
+	public double getB() {
+		return this.b;
+	}
+	public double getC() {
+		return this.c;
+	}
 	
 	/** 
 	  * Вычисляет значение квадратичной функции
@@ -56,18 +68,6 @@ public class Square {
 		}
 		if (start>=finish) System.out.printf("x: %d y: %.4f\n", finish, calculate(finish));
 	}
-	
-	/**
-	 * Getters
-	**/
-	public double getA() {
-		return this.a;
-	}
-	public double getB() {
-		return this.b;
-	}
-	public double getC() {
-		return this.c;
-	}
+
 	
 }
