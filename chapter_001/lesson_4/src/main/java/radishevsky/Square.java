@@ -12,11 +12,16 @@ public class Square {
 	 * Параметры функции ax^2 + bx + c
 	 * по умолчанию 0
 	**/
-	private double a=0d, b=0d, c=0d;
+	private double a, b, c;
 	
 	/**
 	 * Конструктор(ы)
 	**/
+		public Square() {
+		this.a = 0d;
+		this.b = 0d;
+		this.c = 0d;
+	}
 	public Square(double a, double b, double c) {
 		this.a = a;
 		this.b = b;
