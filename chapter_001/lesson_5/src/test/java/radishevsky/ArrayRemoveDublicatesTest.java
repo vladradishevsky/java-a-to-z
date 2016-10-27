@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
   * Class ArrayRemoveDublicatesTest
   * @author vladradishevsky
   * @since 25.10.2016
-  * @version 1.0
+  * @version 1.1
 **/
 public class ArrayRemoveDublicatesTest {
 	
@@ -18,7 +18,7 @@ public class ArrayRemoveDublicatesTest {
 		ArrayRemoveDublicates array = new ArrayRemoveDublicates(new String[]{"One"});
 		array.removeAllDublicatesInArray();
 		
-		assertEquals(array.values, new String[]{"One"});
+		assertThat(array.values, is(new String[]{"One"}));
 	}
 	
 	@Test
@@ -27,6 +27,6 @@ public class ArrayRemoveDublicatesTest {
 		ArrayRemoveDublicates array = new ArrayRemoveDublicates(new String[]{"0","1","2","3","0","1","2","3","0","0","4","6","6","5"});
 		array.removeAllDublicatesInArray();
 		
-		assertEquals(array.values, new String[]{"0","1","2","3","4","6","5"});
+		assertThat(array.values, is(new String[]{"0","1","2","3","4","6","5"}));
 	}
 }
