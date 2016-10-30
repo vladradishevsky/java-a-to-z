@@ -4,7 +4,7 @@ package radishevsky;
   * Class CheckSubstring 
   * @author vladradishevsky
   * @since 28.10.2016
-  * @version 1.0
+  * @version 1.0 fix
 **/
 public class CheckSubstring {
 	
@@ -31,7 +31,7 @@ public class CheckSubstring {
 					break;
 				}
 			}
-			if (result==true) break;
+			if (result) break;
 		}
 		return result;
 	}
