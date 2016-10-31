@@ -3,14 +3,14 @@ package rali;
 public class ArrayExample {
 	public static void main(String[] args) {
 
-		User[] users = new Users[5];
-		users.[0] = new User("Vlad");
-		users.[1] = new User("Vasya");
-		users.[2] = new User("Pert");
-		users.[3] = new User("Make");
-		users.[4] = new User("Misha");
+		User[] users = new User[5];
+		users[0] = new User("Vlad");
+		users[1] = new User("Vasya");
+		users[2] = new User("Pert");
+		users[3] = new User("Make");
+		users[4] = new User("Misha");
 		
-		User user = ArrayExample.findByName(users[3].name)
+		User user = ArrayExample.findByName(users, users[3].name);
 		
 	}
 	public static User findByName(User[] users, String name) {
