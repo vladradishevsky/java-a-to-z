@@ -1,8 +1,12 @@
 package radishevsky.menu;
 
 /**
- * Created by Vladislav on 05.11.2016.
- */
+ * interface Input
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
+ **/
 public interface Input {
 
     String ask(String question);

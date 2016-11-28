@@ -1,4 +1,5 @@
 package radishevsky.menu;
+import radishevsky.exceptions.IdDontExistException;
 import radishevsky.models.*;
 
 import java.util.Random;
@@ -65,6 +66,7 @@ public class Tracker {
                 break;
             }
         }
+        if (result == null) throw new IdDontExistException(String.format("Item with id %s doesn't exist!", id));
         return result;
     }
 

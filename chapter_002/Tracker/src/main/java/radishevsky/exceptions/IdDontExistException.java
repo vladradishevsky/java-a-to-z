@@ -1,8 +1,12 @@
 package radishevsky.exceptions;
 
 /**
- * Created by Vladislav on 21.11.2016.
- */
+ * IdDontExistException
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
+ **/
 public class IdDontExistException extends RuntimeException {
     public String msg;
     public IdDontExistException(String msg) {

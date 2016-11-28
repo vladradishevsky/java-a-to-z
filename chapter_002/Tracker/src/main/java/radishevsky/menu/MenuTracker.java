@@ -1,9 +1,14 @@
 package radishevsky.menu;
 
+import radishevsky.exceptions.IdDontExistException;
 import radishevsky.models.*;
 
 /**
- * Created by Vladislav on 06.11.2016.
+ * Class MenuTracker for manage of menu actions
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
  */
 public class MenuTracker {
 
@@ -123,14 +128,17 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
+            try {
+                int id = input.askId(tracker);
+                Item item = tracker.getItemById(id);
 
-            int id = input.askId(tracker);
-            Item item = tracker.getItemById(id);
-
-            String name = input.ask("Please, enter the task's name: ");
-            item.setName(name);
-            String desc = input.ask("Please, enter the task's desc: ");
-            item.setDescription(desc);
+                String name = input.ask("Please, enter the task's name: ");
+                item.setName(name);
+                String desc = input.ask("Please, enter the task's desc: ");
+                item.setDescription(desc);
+            } catch (IdDontExistException idee) {
+                System.out.println(idee.msg);
+            }
         }
     }
 
@@ -147,11 +155,14 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            int id = input.askId(tracker);
-            tracker.deleteItem(id);
-            System.out.println(String.format("Item %s successfully deleted", id));
+            try {
+                int id = input.askId(tracker);
+                tracker.deleteItem(id);
+                System.out.println(String.format("Item %s successfully deleted", id));
+            } catch (IdDontExistException idee) {
+                System.out.println(idee.msg);
+            }
         }
-
     }
 
     /**
@@ -167,10 +178,14 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            int id = input.askId(tracker);
-            System.out.println(
-                    tracker.getItemById(id)
-            );
+            try {
+                int id = input.askId(tracker);
+                System.out.println(
+                        tracker.getItemById(id)
+                );
+            } catch (IdDontExistException idee) {
+                System.out.println(idee.msg);
+            }
 
         }
 
@@ -190,10 +205,14 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            int id = input.askId(tracker);
-            Item item = tracker.getItemById(id);
-            String text = input.ask("Enter the text of your comment: ");
-            item.addComment(text);
+            try {
+                int id = input.askId(tracker);
+                Item item = tracker.getItemById(id);
+                String text = input.ask("Enter the text of your comment: ");
+                item.addComment(text);
+            } catch (IdDontExistException idee) {
+                System.out.println(idee.msg);
+            }
 
         }
     }

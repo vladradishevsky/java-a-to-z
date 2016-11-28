@@ -1,7 +1,11 @@
 package radishevsky.menu;
 
 /**
- * Created by Vladislav on 17.11.2016.
+ * class BaseAction for execute menu actions
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
  */
 public abstract class BaseAction implements UserAction{
     private String name;

@@ -1,9 +1,12 @@
 package radishevsky.menu;
 
 /**
- * Интерфейс, который
- * Created by Vladislav on 06.11.2016.
- */
+ * interface UserAction
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
+ **/
 public interface UserAction {
     /**
      * Ключ, по которому у пользователя запрашивается, какое действие нужно выполнить

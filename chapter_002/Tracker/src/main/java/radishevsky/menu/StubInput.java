@@ -1,8 +1,12 @@
 package radishevsky.menu;
 
 /**
- * Created by Vladislav on 05.11.2016.
- */
+ * class StubInput
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
+ **/
 public class StubInput implements Input{
 
     private String[] answers;

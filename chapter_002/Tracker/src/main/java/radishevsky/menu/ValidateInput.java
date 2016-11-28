@@ -4,8 +4,12 @@ import radishevsky.exceptions.IdDontExistException;
 import radishevsky.exceptions.MenuOutException;
 
 /**
- * Created by Vladislav on 08.11.2016.
- */
+ * class ValidateInput for check input data
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
+ **/
 public class ValidateInput extends ConsoleInput {
 
     public int ask(String question, int[] range) {
@@ -34,9 +38,9 @@ public class ValidateInput extends ConsoleInput {
                 id = super.askId(tracker);
                 invalid = false;
             } catch (NumberFormatException nfe) {
-                System.out.println("Please, enter valid id again.");
+                System.out.println("Please, enter valid number again!");
             } catch (IdDontExistException ndee) {
-                System.out.println(ndee.msg);
+                throw ndee;
             }
         } while(invalid);
         return id;

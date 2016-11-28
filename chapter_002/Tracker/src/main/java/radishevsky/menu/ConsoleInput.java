@@ -7,8 +7,12 @@ import radishevsky.models.Item;
 import java.util.Scanner;
 
 /**
- * Created by Vladislav on 05.11.2016.
- */
+ * class ConsoleInput for get input data from console
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
+ **/
 public class ConsoleInput implements Input {
 
     private Scanner scanner = new Scanner(System.in);
@@ -46,8 +50,6 @@ public class ConsoleInput implements Input {
 
         } catch (NumberFormatException nfe) {
             throw nfe;
-        } catch (IdDontExistException idee) {
-            throw idee;
         }
         return id;
     }

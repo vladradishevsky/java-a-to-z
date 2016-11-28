@@ -1,8 +1,12 @@
 package radishevsky.exceptions;
 
 /**
- * Created by Vladislav on 08.11.2016.
- */
+ * MenuOutException
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
+ **/
 public class MenuOutException extends RuntimeException {
     public String msg;
     public MenuOutException(String msg) {

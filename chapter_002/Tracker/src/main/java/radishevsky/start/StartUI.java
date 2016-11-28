@@ -3,8 +3,12 @@ package radishevsky.start;
 import radishevsky.menu.*;
 
 /**
- * Created by Vladislav on 04.11.2016.
- */
+ * StartUI for execute main class
+ *
+ * @author vladradishevsky
+ * @since 28.11.2016
+ * @version 1.0
+ **/
 public class StartUI {
 
     private Input input;
