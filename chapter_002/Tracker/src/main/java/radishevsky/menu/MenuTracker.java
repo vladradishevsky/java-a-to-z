@@ -17,6 +17,9 @@ public class MenuTracker {
         this.tracker = tracker;
     }
 
+    /**
+     * This method fills array "actions" with actions
+     */
     public void fillActions() {
         addAction(new AddItem("Add the new Item"));
         addAction(new ShowItems("Show all items"));
@@ -25,9 +28,12 @@ public class MenuTracker {
         addAction(new DeleteItem("Delete Item"));
         addAction(new AddComment("Add comment to item"));
         addAction(new EmptyAction("Exit"));
-
-
     }
+
+    /**
+     * Add Action to the array "actions"
+     * @param action
+     */
     public void addAction(BaseAction action) {
         UserAction[] result = new BaseAction[this.actions.length+1];
         System.arraycopy(this.actions, 0, result, 0, this.actions.length);
@@ -35,15 +41,25 @@ public class MenuTracker {
         result[this.actions.length] = action;
         this.actions = result;
     }
+
+    /**
+     * Get menu size
+     * @return length of "actions"
+     */
     public int getMenuSize() {return this.actions.length;}
 
+    /**
+     * This method get the key of action and excecute it
+     * @param key - the key of menu action
+     * @return key
+     */
     public int select(int key) {
         this.actions[key].execute(this.input, this.tracker);
         return key;
     }
 
     /**
-     * Выводит на консоль меню программы
+     * print in console list of menu actions
      */
     public void show() {
         for (UserAction action : this.actions) {
@@ -54,8 +70,10 @@ public class MenuTracker {
     }
 
     /**
-     *
-     *
+     * Action to create new item and add it
+     * @author vladradishevsky
+     * @since 28.11.2016
+     * @version 1.0
      */
     private class AddItem extends BaseAction {
 
@@ -71,6 +89,12 @@ public class MenuTracker {
         }
     }
 
+    /**
+     * Action to show all items form Tracker
+     * @author vladradishevsky
+     * @since 28.11.2016
+     * @version 1.0
+     */
     private class ShowItems extends BaseAction {
 
         public ShowItems(String name) {
@@ -85,6 +109,12 @@ public class MenuTracker {
         }
     }
 
+    /**
+     * Action to edit item's name and description by it's id
+     * @author vladradishevsky
+     * @since 28.11.2016
+     * @version 1.0
+     */
     private class EditItem extends BaseAction {
 
         public EditItem(String name) {
@@ -104,6 +134,12 @@ public class MenuTracker {
         }
     }
 
+    /**
+     * Action to delete item from Tracker by it's id
+     * @author vladradishevsky
+     * @since 28.11.2016
+     * @version 1.0
+     */
     private class DeleteItem extends BaseAction {
         public DeleteItem(String name) {
             super(name);
@@ -118,6 +154,12 @@ public class MenuTracker {
 
     }
 
+    /**
+     * Action to find item in Tracker by it's id
+     * @author vladradishevsky
+     * @since 28.11.2016
+     * @version 1.0
+     */
     private class FindItem extends BaseAction {
         public FindItem(String name) {
             super(name);
@@ -134,6 +176,12 @@ public class MenuTracker {
 
     }
 
+    /**
+     * Action to add new comment to item by it's id
+     * @author vladradishevsky
+     * @since 28.11.2016
+     * @version 1.0
+     */
     private class AddComment extends BaseAction {
 
         public AddComment(String name) {
@@ -150,6 +198,12 @@ public class MenuTracker {
         }
     }
 
+    /**
+     * This action do nothing (needed for quit from program)
+     * @author vladradishevsky
+     * @since 28.11.2016
+     * @version 1.0
+     */
     private class EmptyAction extends BaseAction {
 
         public EmptyAction(String name) {

@@ -6,13 +6,19 @@ import radishevsky.menu.*;
  * Created by Vladislav on 04.11.2016.
  */
 public class StartUI {
-    //
+
     private Input input;
-
     private int[] ranges;
+    private StartUI(Input input) {
+        this.input = input;
+    }
 
-
-    public int[] getValidateRanges(MenuTracker menu) {
+    /**
+     *
+     * @param menu
+     * @return array int[] numbers of alloyed actions
+     */
+    private int[] getValidateRanges(MenuTracker menu) {
         int[] result = new int[menu.getMenuSize()];
         for(int index=0; index<menu.getMenuSize(); index++) {
             result[index] = index;
@@ -20,11 +26,10 @@ public class StartUI {
         return result;
     }
 
-    public StartUI(Input input) {
-        this.input = input;
-    }
-
-    public void init() {
+    /**
+     * initialize the program
+     */
+    private void init() {
         Tracker tracker = new Tracker();
         MenuTracker menu = new MenuTracker(this.input, tracker);
         menu.fillActions();

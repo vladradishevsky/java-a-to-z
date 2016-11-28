@@ -5,7 +5,7 @@ package radishevsky.menu;
  */
 public interface Input {
 
-    public String ask(String question);
+    String ask(String question);
 
     int ask(String question, int[] range);
 
