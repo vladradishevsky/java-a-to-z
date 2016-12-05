@@ -1,5 +1,6 @@
 package radishevsky.models;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  **/
 public class Item {
 
-    private int id;
+    private int id = -1;
     private String name;
     private String description;
     private Date create;
@@ -47,6 +48,34 @@ public class Item {
             }
         }
 
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (id != item.id) return false;
+        if (commentCount != item.commentCount) return false;
+        if (name != null ? !name.equals(item.name) : item.name != null) return false;
+        if (description != null ? !description.equals(item.description) : item.description != null) return false;
+        if (create != null ? !create.equals(item.create) : item.create != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(comments, item.comments);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (create != null ? create.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(comments);
+        result = 31 * result + commentCount;
         return result;
     }
 
