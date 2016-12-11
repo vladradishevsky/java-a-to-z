@@ -11,6 +11,7 @@
 	<modules>
 		<module>lesson_1</module>
 		<module>tracker</module>
+		<module>chess</module>
 	</modules>
 
     
