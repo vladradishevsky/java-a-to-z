@@ -5,11 +5,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by Vladislav on 19.12.2016.
- */
+ * Class NumberChecker для проверки байтового потока
+ * @author vladradishevsky
+ * @since 21.12.2016
+ * @version 1.0
+ **/
 public class NumberChecker {
 
-
+    /**
+     * Метод проверяет наличие четного числа в байтовом потоке
+     * @param in InputStream
+     * @return true если содержится четное число, иначе false
+     */
     public boolean isNumber(InputStream in) {
         boolean result = false;
         try(ByteArrayOutputStream message = new ByteArrayOutputStream()) {
@@ -28,14 +35,6 @@ public class NumberChecker {
             ioe.printStackTrace();
         }
 
-
         return result;
     }
-
-    /*
-    public static void main(String[] args) throws IOException {
-        InputStream in = new ByteArrayInputStream("10".getBytes());
-        System.out.println(isNumber(in));
-    }
-    */
 }
