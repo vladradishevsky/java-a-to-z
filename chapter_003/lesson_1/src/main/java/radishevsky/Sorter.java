@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * Created by Vladislav on 23.12.2016.
+ * Интерфейс Sorter предназначается для сортировки файлов
  */
 public interface Sorter {
 

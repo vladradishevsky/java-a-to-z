@@ -1,126 +1,181 @@
 package radishevsky;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * Created by Vladislav on 23.12.2016.
+ * ExternalSorter предназначен для сортировки файлов по возрастанию
+ * длины строки. Используется внешняя сортировка слиянием
+ * @author vladradishevsky
+ * @since 29.12.2016
+ * @version 1.0
  */
 public class ExternalSorter implements Sorter {
-
-    private RandomAccessFile srcFile;
-    private RandomAccessFile distFile;
-    private RandomAccessFile firstTmpFile;
-    private RandomAccessFile secondTmpFile;
+    /**
+     * Длина серий. Серия (упорядоченный отрезок) – это последовательность элементов,
+     * которая упорядочена по ключу (в данном слкчае по возрастанию длины строк).
+     */
     private long batch;
-    private RandomAccessFile currentFile;
 
     /**
      * Метод осуществляет сортировку исходного файла по возрастанию длин строк и помещает результат в конечный файл
-     *
      * @param source   исходный файл
      * @param distance конечный файл
      */
     @Override
     public void sort(File source, File distance) throws IOException {
-            this.batch = 1L;
-            this.srcFile = new RandomAccessFile(source, "r");
-            this.distFile = new RandomAccessFile(distance, "rw");
-            this.firstTmpFile = new RandomAccessFile(String.format("%s\\tmp1.txt", distance.getParent()), "rw");
-            this.secondTmpFile = new RandomAccessFile(String.format("%s\\tmp2.txt", distance.getParent()), "rw");
 
-            RandomAccessFile toSplit = this.srcFile;
-            long srcLength = getLinesCountInSrcFile();
+    try {
+            File first = new File(String.format("%s\\temp_file_1.txt", distance.getParent()));
+            File second = new File(String.format("%s\\temp_file_2.txt", distance.getParent()));
 
-            while (this.batch <= srcLength) {
-                // Разделяем исходный файл на 2 временных
-                this.split(toSplit);
-                // Отчищаем конечный файл перед заполнением
-                this.distFile.setLength(0L);
-                // Дальше вместо исходного файла будем разделять конечный
-                if (toSplit == this.srcFile) toSplit = this.distFile;
-                // Делаем слияние
-                this.merge();
-                // Увеличиваем размер серии в 2 раза
-                this.batch *= 2;
+            try (RandomAccessFile srcFile = new RandomAccessFile(source, "r");
+                 RandomAccessFile distFile = new RandomAccessFile(distance, "rw");
+                 RandomAccessFile firstTmpFile = new RandomAccessFile(first, "rw");
+                 RandomAccessFile secondTmpFile = new RandomAccessFile(second, "rw"))
+            {
 
-                // System.out.println(this.batch);
+                this.batch = 1L;
+                RandomAccessFile toSplit = srcFile;
+                long srcLength = getCountOfLinesInFile(srcFile);
+
+                while (this.batch <= srcLength) {
+                    // Разделяем исходный файл на 2 временных
+                    toSplit.seek(0L);
+                    this.split(toSplit, firstTmpFile, secondTmpFile);
+                    // Отчищаем конечный файл перед заполнением
+                    distFile.setLength(0L);
+                    // Дальше вместо исходного файла будем разделять конечный
+                    if (toSplit == srcFile) toSplit = distFile;
+                    // Делаем слияние
+                    this.merge(firstTmpFile, secondTmpFile, distFile);
+                    // Увеличиваем размер серии в 2 раза
+                    this.batch *= 2;
+                }
+
+            } catch (IOException ioExc) {
+                ioExc.printStackTrace();
+
+            } finally {
+                first.deleteOnExit();
+                second.deleteOnExit();
             }
 
-        this.distFile.writeBytes("Hello!");
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+
     }
 
-    private void split(RandomAccessFile fileToSplit) throws IOException {
-        this.firstTmpFile.setLength(0L);
-        this.secondTmpFile.setLength(0L);
+    /**
+     *  Метод разбивает исходный файл на 2 вспомогательных файла по упорядоченным сериям
+     * @param fileToSplit исходный файл
+     * @param fileFirstDist первый вспомогательный файл
+     * @param fileSecondDist второй вспомогательный файл
+     * @throws IOException
+     */
+    private void split(RandomAccessFile fileToSplit, RandomAccessFile fileFirstDist, RandomAccessFile fileSecondDist) throws IOException {
 
-        String currentStr = "";
+        RandomAccessFile currentFile;
+        fileFirstDist.setLength(0L);
+        fileSecondDist.setLength(0L);
+
+        String currentStr;
         boolean isEndOfFile = false;
-        this.currentFile = this.firstTmpFile;
-        this.currentFile.seek(0L);
+        currentFile = fileFirstDist;
+        currentFile.seek(0L);
 
         while (!isEndOfFile) {
             for (long index = 0L; index < this.batch; index++) {
                 currentStr = fileToSplit.readLine();
                 isEndOfFile = (currentStr == null);
                 if (isEndOfFile) break;
-                this.currentFile.writeBytes(String.format("%s\n", currentStr));
+                currentFile.writeBytes(String.format("%s\n", currentStr));
             }
-            this.currentFile = this.currentFile.equals(this.firstTmpFile) ? this.secondTmpFile : this.firstTmpFile;
+            currentFile = currentFile.equals(fileFirstDist) ? fileSecondDist : fileFirstDist;
         }
 
     }
 
-    private void merge() throws IOException {
+    /**
+     * Метод производит слияние двух вспомогательный файла в один методом слияния серий
+     * @param firstPart первый вспомогательный файл
+     * @param secondPart второй вспомогательный файл
+     * @param distFile конечный файл
+     * @throws IOException
+     */
+    private void merge(RandomAccessFile firstPart, RandomAccessFile secondPart, RandomAccessFile distFile) throws IOException {
 
-        this.firstTmpFile.seek(0L);
-        this.secondTmpFile.seek(0L);
-        String firstStr = this.firstTmpFile.readLine();
-        String secondStr = this.secondTmpFile.readLine();
-        boolean isFirstFileEnded = (firstStr == null);
-        boolean isSecondFileEnded = (secondStr == null);
+        firstPart.seek(0L);
+        secondPart.seek(0L);
+        String firstStr = firstPart.readLine();
+        String secondStr = secondPart.readLine();
+
         long firstIndex = 0L, secondIndex = 0L;
 
 
-        // Начало цикла
+        // Начало цикла (переписать)
         while ((firstStr != null) || (secondStr != null)) {
 
-                if ((secondStr == null) || (firstStr.length() < secondStr.length())) {
-                    this.distFile.writeBytes(String.format("%s\n", firstStr));
-                    firstIndex++;
-                    if (firstIndex >= this.batch) {
-                        firstStr = null;
-                    } else if (firstStr != null) {
-                        firstStr = this.firstTmpFile.readLine();
-                        isFirstFileEnded = (firstStr == null);
-                    }
+            if (firstIndex >= this.batch && secondIndex >= this.batch) {
+                firstIndex = 0L;
+                secondIndex = 0L;
+            }
 
-                } else if ((firstStr == null || (firstStr.length() >= secondStr.length()))) {
-                    this.distFile.writeBytes(String.format("%s\n", secondStr));
+            if (secondStr == null) {
+                distFile.writeBytes(String.format("%s\n", firstStr));
+                firstIndex++;
+                firstStr = firstPart.readLine();
+
+            } else if (firstStr == null) {
+                distFile.writeBytes(String.format("%s\n", secondStr));
+                secondIndex++;
+                secondStr = secondPart.readLine();
+
+            } else if (secondIndex >= this.batch) {
+                distFile.writeBytes(String.format("%s\n", firstStr));
+                firstIndex++;
+                firstStr = firstPart.readLine();
+
+            } else if (firstIndex >= this.batch) {
+                distFile.writeBytes(String.format("%s\n", secondStr));
+                secondIndex++;
+                secondStr = secondPart.readLine();
+
+            } else {
+
+                if (firstStr.length() < secondStr.length()) {
+                    distFile.writeBytes(String.format("%s\n", firstStr));
+                    firstIndex++;
+                    firstStr = firstPart.readLine();
+
+                } else {
+                    distFile.writeBytes(String.format("%s\n", secondStr));
                     secondIndex++;
-                    if (secondIndex >= this.batch) {
-                        secondStr = null;
-                    } else if (secondStr != null) {
-                        secondStr = this.secondTmpFile.readLine();
-                        isSecondFileEnded = (secondStr == null);
-                    }
+                    secondStr = secondPart.readLine();
                 }
+            }
         }
 
     }
 
-    private long getLinesCountInSrcFile() throws IOException {
+    /**
+     * Возврашает количество строк в файле
+     * @param randomAccessFile исходный файл
+     * @return кол-во строк
+     * @throws IOException
+     */
+    private long getCountOfLinesInFile(RandomAccessFile randomAccessFile) throws IOException {
         long result = 0L;
         try {
-            while (this.srcFile.readLine() != null) {
+            while (randomAccessFile.readLine() != null) {
                 result++;
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
+        randomAccessFile.seek(0L);
         return result;
     }
 }

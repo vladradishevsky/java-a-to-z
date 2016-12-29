@@ -23,19 +23,5 @@ public class ExternalSorterTest {
         assertThat(1, is(1));
     }
 
-    @Test
-    public void firstTest() throws Exception {
-        File srcFile = new File("D:\\1.txt");
-        File distFile = new File("D:\\2.txt");
-        String temp;
-        RandomAccessFile src = new RandomAccessFile(srcFile, "rw");
-        RandomAccessFile dist = new RandomAccessFile(distFile, "rw");
-
-        dist.writeBytes(String.format("%s\n", src.readLine()));
-        dist.writeBytes(String.format("%s\n", src.readLine()));
-        dist.writeBytes(String.format("%s\n", src.readLine()));
-
-        assertThat(1, is(1));
-    }
 
 }
