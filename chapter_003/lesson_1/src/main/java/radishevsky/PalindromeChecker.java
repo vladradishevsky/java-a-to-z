@@ -33,7 +33,6 @@ public class PalindromeChecker {
         if (word.length() != ALLOWED_LENGTH_OF_THE_WORD) throw new Exception(
                 String.format("Word must consist of %s letters", this.ALLOWED_LENGTH_OF_THE_WORD)
         );
-
         boolean result = true;
         char[] charWord = word.toLowerCase().toCharArray();
 
