@@ -35,7 +35,6 @@ public class ExternalSorter implements Sorter {
                  RandomAccessFile firstTmpFile = new RandomAccessFile(first, "rw");
                  RandomAccessFile secondTmpFile = new RandomAccessFile(second, "rw"))
             {
-
                 this.batch = 1L;
                 RandomAccessFile toSplit = srcFile;
                 long srcLength = getCountOfLinesInFile(srcFile);
@@ -56,7 +55,6 @@ public class ExternalSorter implements Sorter {
 
             } catch (IOException ioExc) {
                 ioExc.printStackTrace();
-
             } finally {
                 first.deleteOnExit();
                 second.deleteOnExit();
