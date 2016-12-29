@@ -9,10 +9,9 @@
 	<packaging>pom</packaging>
 	
 	<modules>
-		<module>lesson_1</module>
 		<module>tracker</module>
 		<module>chess</module>
-		<module>frog_task</module>
+		<module>frog task</module>
 	</modules>
 
     
