@@ -26,7 +26,7 @@ public class ExternalSorter implements Sorter {
     @Override
     public void sort(File source, File distance) throws IOException {
 
-    try {
+        try {
             File first = new File(String.format("%s\\temp_file_1.txt", distance.getParent()));
             File second = new File(String.format("%s\\temp_file_2.txt", distance.getParent()));
 
