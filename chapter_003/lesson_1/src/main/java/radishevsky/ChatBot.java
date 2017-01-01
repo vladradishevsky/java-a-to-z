@@ -1,5 +1,7 @@
 package radishevsky;
 
+import org.omg.CORBA.UserException;
+
 import java.io.*;
 import java.util.Date;
 import java.util.Random;
@@ -51,13 +53,15 @@ class RandomMessenger {
     Scanner scanner;
     // FileInputStream answers;
     FileOutputStream log;
-    Scanner answers;
+    RandomAccessFile answers;
+    int answersLength;
 
-    RandomMessenger() throws FileNotFoundException {
+    RandomMessenger() throws Exception {
         this.scanner = new Scanner(System.in);
-        // answers = new FileInputStream("D:\\answers.txt");
-        this.answers = new Scanner(new File("D:\\answers.txt"));
+        this.answers = new RandomAccessFile(new File("D:\\answers.txt"), "r");
         this.log = new FileOutputStream("D:\\log.txt");
+        this.answersLength = getCountOfLinesInFile(this.answers);
+        if (this.answersLength == 0) throw new Exception("File of answers is empty");
     }
 
     public String ask(String question) throws IOException {
@@ -74,23 +78,35 @@ class RandomMessenger {
         System.out.println(message);
     }
 
-    private String getRandomStringFromAnswers() {
+    private String getRandomStringFromAnswers() throws IOException {
 
-        String result = "Check answers file, may be it's empty";
-
-        int randomInt = 1 + Math.round((float)Math.random() * 9);
+        String result = "";
+        int randomInt = 1 + Math.round((float)Math.random() * (this.answersLength - 1));
 
         System.out.println("randomInt: " + randomInt);
         // System.out.println("random int is " + randomInt);
 
         for (int index = 0; index < randomInt; index++) {
-            if (this.answers.hasNext()) {
-                result = this.answers.nextLine();
-            } else {
-                this.answers.reset();
+
+            result = this.answers.readLine();
+            if (result == null) {
+                this.answers.seek(0L);
+                result = this.answers.readLine();
             }
         }
         return result;
     }
 
+    private int getCountOfLinesInFile(RandomAccessFile randomAccessFile) throws IOException {
+        int result = 0;
+        try {
+            while (randomAccessFile.readLine() != null) {
+                result++;
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        randomAccessFile.seek(0L);
+        return result;
+    }
 }
