@@ -1,0 +1,9 @@
+User: 123
+Bot: ANSWER
+User: стоп
+User: 456
+User: продолжить
+Bot: ANSWER
+User: 789
+Bot: ANSWER
+User: закончить
