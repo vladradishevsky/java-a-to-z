@@ -9,9 +9,14 @@ import java.io.RandomAccessFile;
  * длины строки. Используется внешняя сортировка слиянием
  * @author vladradishevsky
  * @since 29.12.2016
- * @version 1.0
+ * @version 1.1
  */
 public class ExternalSorter implements Sorter {
+    /**
+     * Current line separator
+     */
+    private final String SEPARATOR = System.getProperty("line.separator");
+
     /**
      * Длина серий. Серия (упорядоченный отрезок) – это последовательность элементов,
      * которая упорядочена по ключу (в данном слкчае по возрастанию длины строк).
@@ -27,8 +32,9 @@ public class ExternalSorter implements Sorter {
     public void sort(File source, File distance) throws IOException {
 
         try {
-            File first = new File(String.format("%s\\temp_file_1.txt", distance.getParent()));
-            File second = new File(String.format("%s\\temp_file_2.txt", distance.getParent()));
+
+            File first = new File("temp_file_1.txt");
+            File second = new File("temp_file_2.txt");
 
             try (RandomAccessFile srcFile = new RandomAccessFile(source, "r");
                  RandomAccessFile distFile = new RandomAccessFile(distance, "rw");
@@ -89,7 +95,7 @@ public class ExternalSorter implements Sorter {
                 currentStr = fileToSplit.readLine();
                 isEndOfFile = (currentStr == null);
                 if (isEndOfFile) break;
-                currentFile.writeBytes(String.format("%s\n", currentStr));
+                currentFile.writeBytes(String.format("%s%s", currentStr, this.SEPARATOR));
             }
             currentFile = currentFile.equals(fileFirstDist) ? fileSecondDist : fileFirstDist;
         }
@@ -122,34 +128,34 @@ public class ExternalSorter implements Sorter {
             }
 
             if (secondStr == null) {
-                distFile.writeBytes(String.format("%s\n", firstStr));
+                distFile.writeBytes(String.format("%s%s", firstStr, this.SEPARATOR));
                 firstIndex++;
                 firstStr = firstPart.readLine();
 
             } else if (firstStr == null) {
-                distFile.writeBytes(String.format("%s\n", secondStr));
+                distFile.writeBytes(String.format("%s%s", secondStr, this.SEPARATOR));
                 secondIndex++;
                 secondStr = secondPart.readLine();
 
             } else if (secondIndex >= this.batch) {
-                distFile.writeBytes(String.format("%s\n", firstStr));
+                distFile.writeBytes(String.format("%s%s", firstStr, this.SEPARATOR));
                 firstIndex++;
                 firstStr = firstPart.readLine();
 
             } else if (firstIndex >= this.batch) {
-                distFile.writeBytes(String.format("%s\n", secondStr));
+                distFile.writeBytes(String.format("%s%s", secondStr, this.SEPARATOR));
                 secondIndex++;
                 secondStr = secondPart.readLine();
 
             } else {
 
                 if (firstStr.length() < secondStr.length()) {
-                    distFile.writeBytes(String.format("%s\n", firstStr));
+                    distFile.writeBytes(String.format("%s%s", firstStr, this.SEPARATOR));
                     firstIndex++;
                     firstStr = firstPart.readLine();
 
                 } else {
-                    distFile.writeBytes(String.format("%s\n", secondStr));
+                    distFile.writeBytes(String.format("%s%s", secondStr, this.SEPARATOR));
                     secondIndex++;
                     secondStr = secondPart.readLine();
                 }
@@ -164,16 +170,16 @@ public class ExternalSorter implements Sorter {
      * @return кол-во строк
      * @throws IOException
      */
-    private long getCountOfLinesInFile(RandomAccessFile randomAccessFile) throws IOException {
+    private long getCountOfLinesInFile(RandomAccessFile randomAccessFile) {
         long result = 0L;
         try {
             while (randomAccessFile.readLine() != null) {
                 result++;
             }
+            randomAccessFile.seek(0L);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        randomAccessFile.seek(0L);
         return result;
     }
 }

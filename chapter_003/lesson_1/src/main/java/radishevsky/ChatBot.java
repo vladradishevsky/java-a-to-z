@@ -1,27 +1,36 @@
 package radishevsky;
 
-import org.omg.CORBA.UserException;
-
 import java.io.*;
 import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Created by Vladislav on 02.01.2017.
- */
+ * ChatBot берет случайную фразу из текстового файла и выводит в ответ
+ * Программа замолкает если пользователь вводит слово «стоп».
+ * Если пользователь вводит слово «продолжить» , программа снова начинает отвечать.
+ * При вводе слова «закончить» программа прекращает работу.
+ * Запись диалога включая, слова-команды стоп/продолжить/закончить записать в текстовый лог
+ *
+ * @author vladradishevsky
+ * @since 02.01.2016
+ * @version 1.0
+ **/
 public class ChatBot {
 
-    public static void main(String[] args) {
+    private final String PAUSE_KEY = "стоп";
+    private final String CONTINUE_KEY = "продолжить";
+    private final String QUIT_KEY = "закончить";
 
+    public static void main(String[] args) {
         try {
             new ChatBot().init();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Конец программы");
     }
+
 
     public void init() throws Exception {
 
@@ -31,16 +40,18 @@ public class ChatBot {
         do {
             message = messenger.ask("Вы: ");
             switch (message.toLowerCase()) {
-                case "стоп": {
+                case PAUSE_KEY: {
                     isPause = true;
                     break;
-                }case "закончить": {
+                }case QUIT_KEY: {
                     isQuit = true;
                     break;
-                }case "продолжить": {
+                }case CONTINUE_KEY: {
                     isPause = false;
                 } default: {
-                    if (!isPause) messenger.answer();
+                    if (!isPause) {
+                        messenger.answer();
+                    }
                     break;
                 }
             }
@@ -50,41 +61,51 @@ public class ChatBot {
 }
 class RandomMessenger {
 
+    private final String SEPARATOR = System.getProperty("line.separator");
     Scanner scanner;
-    // FileInputStream answers;
+    // тесты должны работать;
     FileOutputStream log;
     RandomAccessFile answers;
     int answersLength;
 
+    /**
+     * Конструктор по умолчанию
+     * @throws Exception
+     */
     RandomMessenger() throws Exception {
         this.scanner = new Scanner(System.in);
-        this.answers = new RandomAccessFile(new File("D:\\answers.txt"), "r");
-        this.log = new FileOutputStream("D:\\log.txt");
+        ClassLoader cl = getClass().getClassLoader();
+
+        File ans_file = new File(cl.getResource("answers.txt").getFile());
+        File log_file = new File(cl.getResource("log.txt").getFile());
+
+        this.answers = new RandomAccessFile(ans_file, "r");
+        this.log = new FileOutputStream(log_file);
+
         this.answersLength = getCountOfLinesInFile(this.answers);
         if (this.answersLength == 0) throw new Exception("File of answers is empty");
+
     }
 
     public String ask(String question) throws IOException {
         System.out.print(question);
         String message = this.scanner.nextLine();
         // log.write(message.getBytes("UTF-8"));
-        this.log.write((String.format("[%s]User: %s\n", new Date(), message)).getBytes("UTF-8"));
+        this.log.write((String.format("[%s]User: %s%s", new Date(), message, this.SEPARATOR)).getBytes("UTF-8"));
 
         return message;
     }
     public void answer() throws UnsupportedEncodingException, IOException {
         String message = this.getRandomStringFromAnswers();
-        this.log.write((String.format("[%s]Bot: %s\n", new Date(), message)).getBytes("UTF-8"));
+        this.log.write((String.format("[%s]Bot: %s%s", new Date(), message, this.SEPARATOR)).getBytes("UTF-8"));
         System.out.println(message);
     }
 
     private String getRandomStringFromAnswers() throws IOException {
 
         String result = "";
-        int randomInt = 1 + Math.round((float)Math.random() * (this.answersLength - 1));
-
-        System.out.println("randomInt: " + randomInt);
-        // System.out.println("random int is " + randomInt);
+        int randomInt = new Random().nextInt(9) + 1;
+        //System.out.println("randomInt: " + randomInt);
 
         for (int index = 0; index < randomInt; index++) {
 
