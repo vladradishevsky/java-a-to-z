@@ -21,6 +21,6 @@ public interface UserAction {
     /**
      * Метод, который выполняет основное действие (добавление/редактирование/удаление/поиск/вывод)
      **/
-    void execute(FileManager fileManager);
+    void execute(FileManager fileManager, String... args);
 
 }
