@@ -8,7 +8,7 @@ import java.net.Socket;
  *
  * @author Vlad Radishevsky
  * @since 1.02.2017
- * @version 1.1
+ * @version 1.1 fixed
  */
 public class ActionTracker {
 
@@ -102,11 +102,13 @@ public class ActionTracker {
                 message.append("[назад] ..\n");
             }
             File[] list = currentDirectory.listFiles();
-            for (File file : list) {
-                if (file.isFile()) {
-                    message.append(String.format("[файл] %s\n", file.getName()));
-                } else if (file.isDirectory()) {
-                    message.append(String.format("[папка] %s\n", file.getName()));
+            if (list != null && list.length > 0) {
+                for (File file : list) {
+                    if (file.isFile()) {
+                        message.append(String.format("[файл] %s\n", file.getName()));
+                    } else if (file.isDirectory()) {
+                        message.append(String.format("[папка] %s\n", file.getName()));
+                    }
                 }
             }
 
@@ -134,7 +136,7 @@ public class ActionTracker {
             String arg;
             try {
                 arg = args[1]; // args[0] содержит в себе команду 'to'
-            } catch (NullPointerException | ArrayIndexOutOfBoundsException exc) {
+            } catch (ArrayIndexOutOfBoundsException exc) {
                 outputForClient.writeUTF(String.format(
                         "Введите:\n%s <имя папки> для перемещения в подкаталог, либо\n%s .. - вернуться назад",
                         super.command(), super.command())
@@ -155,9 +157,12 @@ public class ActionTracker {
 
         private File getChildDirectory(String name) {
             File result = currentDirectory;
-            for (File file : currentDirectory.listFiles()) {
-                if (name.equalsIgnoreCase(file.getName()) && file.isDirectory()) {
-                    result = file;
+            File[] list = currentDirectory.listFiles();
+            if (list != null && list.length > 0) {
+                for (File file : list) {
+                    if (name.equalsIgnoreCase(file.getName()) && file.isDirectory()) {
+                        result = file;
+                    }
                 }
             }
 
@@ -202,24 +207,21 @@ public class ActionTracker {
 
         }
 
-        private File getFileFromArg(String... args) throws RuntimeException {
-            try {
+        private File getFileFromArg(String... args) throws Exception {
+
                 File result = new File(args[1]);
+
                 if (result.isDirectory()) {
-                    throw new RuntimeException("Ошибка: выбран не файл, а каталог");
+                    throw new Exception("Ошибка: выбран не файл, а каталог");
                 } else if (!result.exists()) {
-                    throw new RuntimeException("Файл недоступен");
-                } else if (!result.isAbsolute()) {
-                    throw new RuntimeException("Ошибка: введен не полный путь к файлу");
+                    throw new Exception("Файл недоступен");
+                } else if (!result.isAbsolute() || !result.canRead()) {
+                    throw new Exception("Ошибка: введен не полный путь к файлу");
                 } else if (args.length != 3) {
-                    throw new RuntimeException("Некорректное сообщение:");
+                    throw new Exception("Некорректное сообщение:");
                 }
 
                 return result;
-            } catch (NullPointerException npe) {
-                throw new NullPointerException("Ошибка: такого файла на серевере не существует");
-            }
-
         }
     }
 
