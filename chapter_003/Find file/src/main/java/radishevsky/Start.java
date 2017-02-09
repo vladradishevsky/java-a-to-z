@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Vlad Radishevsky
  * @since 08.02.2017
- * @version 1.0
+ * @version 1.0fix
  */
 public class Start {
 
@@ -60,9 +60,10 @@ public class Start {
     public Start(String[] args) throws IOException {
         this.DIR = new File(args[1]);
         this.KEY_WORD = args[3];
-        File logFile = new File(args[6]);
+        File logFile = new File(String.format("%s/%s", this.DIR.getPath(), args[6]));
 
         this.LOG = new FileWriter(logFile, true);
+
         switch (args[4]) {
             case("-f"): {
                 this.CURRENT_FILTER = new FullMatch(this.KEY_WORD);
@@ -92,6 +93,7 @@ public class Start {
         this.recursionFind(this.DIR);
         this.LOG.write(LN);
         this.LOG.flush();
+        this.LOG.close();
         System.out.println("Поиск выполнен");
     }
 
@@ -146,15 +148,18 @@ public class Start {
             if (isValidArgs(args)) {
                 new Start(args).run();
 
+            } else if (args != null && args.length == 1 && args[0].equals("help")) {
+                for (String text : helpMessage) {
+                    System.out.println(text);
+                }
+
             } else {
                 throw new IllegalArgumentException("Неверно указаны аргументы. Смотрите help:");
             }
 
         } catch (IOException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            for (String text : helpMessage) {
-                System.out.println(text);
-            }
         }
     }
+
 }
