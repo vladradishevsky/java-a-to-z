@@ -52,12 +52,25 @@ public class Start {
     /**
      * Используемый File Filter
      */
-    private final FileFilter CURRENT_FILTER;
+    private final FileFilter FILTER;
 
     /**
      * Конструктор
      */
-    public Start(String[] args) throws IOException {
+    public Start(String[] args) throws IOException, IllegalArgumentException {
+        if (!isValidArgs(args)) {
+            if (args != null && args.length == 1 && args[0].equals("help")) {
+                StringBuilder sb = new StringBuilder();
+                for (String text : helpMessage) {
+                    sb.append(text);
+                    sb.append(LN);
+                }
+                throw new IllegalArgumentException(sb.toString());
+            } else {
+                throw new IllegalArgumentException("Неверно указаны аргументы. Смотрите help:");
+            }
+        }
+
         this.DIR = new File(args[1]);
         this.KEY_WORD = args[3];
         File logFile = new File(String.format("%s/%s", this.DIR.getPath(), args[6]));
@@ -65,19 +78,20 @@ public class Start {
         this.LOG = new FileWriter(logFile, true);
 
         switch (args[4]) {
-            case("-f"): {
-                this.CURRENT_FILTER = new FullMatch(this.KEY_WORD);
+            case ("-f"): {
+                this.FILTER = new FullMatch(this.KEY_WORD);
                 break;
             }
-            case("-m"): {
-                this.CURRENT_FILTER = new MaskFind(this.KEY_WORD);
+            case ("-m"): {
+                this.FILTER = new MaskFind(this.KEY_WORD);
                 break;
             }
-            case("-r"): {
-                this.CURRENT_FILTER = new RegexFind(this.KEY_WORD);
+            case ("-r"): {
+                this.FILTER = new RegexFind(this.KEY_WORD);
                 break;
             }
-            default: throw new IOException("Некорректный параметр поиска: используйте -f, -m или -r");
+            default:
+                throw new IOException("Некорректный параметр поиска: используйте -f, -m или -r");
         }
     }
 
@@ -87,7 +101,7 @@ public class Start {
     public void run() throws IOException {
         this.LOG.write(String.format(
                 "[%s] Поиск файлов по %s с %s в папке %s%s",
-                new Date(), this.CURRENT_FILTER, this.KEY_WORD, this.DIR, LN
+                new Date(), this.FILTER, this.KEY_WORD, this.DIR, LN
         ));
 
         this.recursionFind(this.DIR);
@@ -103,7 +117,7 @@ public class Start {
      */
     public void recursionFind(File currDir) throws IOException {
 
-        File[] list = currDir.listFiles(this.CURRENT_FILTER);
+        File[] list = currDir.listFiles(this.FILTER);
         if (list != null && list.length > 0) {
             for (File file : list) {
                 this.LOG.write(file.getPath().concat(LN));
@@ -145,17 +159,7 @@ public class Start {
      */
     public static void main(String[] args) {
         try {
-            if (isValidArgs(args)) {
-                new Start(args).run();
-
-            } else if (args != null && args.length == 1 && args[0].equals("help")) {
-                for (String text : helpMessage) {
-                    System.out.println(text);
-                }
-
-            } else {
-                throw new IllegalArgumentException("Неверно указаны аргументы. Смотрите help:");
-            }
+            new Start(args).run();
 
         } catch (IOException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
