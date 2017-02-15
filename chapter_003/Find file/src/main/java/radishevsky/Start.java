@@ -2,6 +2,7 @@ package radishevsky;
 
 import radishevsky.FileFilters.FullMatch;
 import radishevsky.FileFilters.MaskFind;
+import radishevsky.FileFilters.Param;
 import radishevsky.FileFilters.RegexFind;
 import java.io.*;
 import java.util.Date;
@@ -77,22 +78,7 @@ public class Start {
 
         this.LOG = new FileWriter(logFile, true);
 
-        switch (args[4]) {
-            case ("-f"): {
-                this.FILTER = new FullMatch(this.KEY_WORD);
-                break;
-            }
-            case ("-m"): {
-                this.FILTER = new MaskFind(this.KEY_WORD);
-                break;
-            }
-            case ("-r"): {
-                this.FILTER = new RegexFind(this.KEY_WORD);
-                break;
-            }
-            default:
-                throw new IOException("Некорректный параметр поиска: используйте -f, -m или -r");
-        }
+        this.FILTER = new Param().getFileFilter(args[4], args[3]);
     }
 
     /**
@@ -164,6 +150,7 @@ public class Start {
         } catch (IOException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+
     }
 
 }
