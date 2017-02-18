@@ -22,13 +22,13 @@ public class Subtraction extends UserAction {
     }
 
     /**
-     * Execute subtraction in Calculator
-     *
-     * @param params - arguments that may be required for the arithmetic operation
+     * Execute subtraction in Calculator.
+     * @param params - arguments that may be required for the arithmetic operation.
+     * @return result of subtraction.
      */
     public double execute(double... params) {
         params = super.getTwoCorrectParams("уменьшаемое", "вычитаемое", params);
-        this.CALCULATOR.subtract(params[0], params[1]);
-        return this.CALCULATOR.getResult();
+        this.getCalculator().subtract(params[0], params[1]);
+        return this.getCalculator().getResult();
     }
 }

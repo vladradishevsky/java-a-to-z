@@ -22,13 +22,13 @@ public class Multiplication extends UserAction {
     }
 
     /**
-     * Execute multiplication in Calculator
-     *
-     * @param params - arguments that may be required for the arithmetic operation
+     * Execute multiplication in Calculator.
+     * @param params - arguments that may be required for the arithmetic operation.
+     * @return result of multiplication.
      */
     public double execute(double... params) {
         params = super.getTwoCorrectParams("первый множитель", "второй множитель", params);
-        this.CALCULATOR.multiple(params[0], params[1]);
-        return this.CALCULATOR.getResult();
+        this.getCalculator().multiple(params[0], params[1]);
+        return this.getCalculator().getResult();
     }
 }

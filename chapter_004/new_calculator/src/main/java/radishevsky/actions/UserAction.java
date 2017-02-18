@@ -14,22 +14,22 @@ public abstract class UserAction {
     /**
      * Calculator to default use.
      */
-    protected final Calculator CALCULATOR;
+    private final Calculator calculator;
 
     /**
      * Key for menu numbering.
      */
-    protected int key;
+    private int key;
 
     /**
      * Naming to display in the menu.
      */
-    protected final String INFO;
+    private final String info;
 
     /**
      * Input for requests users choice.
      */
-    protected final Input INPUT;
+    private final Input input;
 
     /**
      * Default constructor.
@@ -38,19 +38,21 @@ public abstract class UserAction {
      * @param info - Name of this UserAction to display the main menu.
      */
     public UserAction(final Input input, final Calculator calculator, final String info) {
-        this.INPUT = input;
-        this.CALCULATOR = calculator;
-        this.INFO = info;
+        this.input = input;
+        this.calculator = calculator;
+        this.info = info;
     }
 
     /**
      * Execute something in Calculator.
      * @param params - arguments that may be required for the arithmetic operation.
+     * @return - result of arithmetic operation.
      */
     public abstract double execute(double... params);
 
     /**
      * Getter for key.
+     * @return key.
      */
     public int getKey() {
         return this.key;
@@ -66,9 +68,26 @@ public abstract class UserAction {
 
     /**
      * Getter for info.
+     * @return info.
      */
     public String getInfo() {
-        return this.INFO;
+        return this.info;
+    }
+
+    /**
+     * Getter for calculator.
+     * @return calculator.
+     */
+    public Calculator getCalculator() {
+        return calculator;
+    }
+
+    /**
+     * Getter for calculator.
+     * @return Input.
+     */
+    public Input getInput() {
+        return input;
     }
 
     /**
@@ -80,7 +99,7 @@ public abstract class UserAction {
     protected double getOneCorrectParam(String nameOfParam, double... params) {
         double result;
         if (params.length < 1) {
-            result = this.INPUT.askDouble(String.format("Введите %s: ", nameOfParam));
+            result = this.input.askDouble(String.format("Введите %s: ", nameOfParam));
         } else {
             result = params[0];
         }
@@ -96,22 +115,16 @@ public abstract class UserAction {
      */
     protected double[] getTwoCorrectParams(String nameOfFirst, String nameOfSecond, double... params) {
         double first, second;
-        switch (params.length) {
-            case 0: {
-                first = this.INPUT.askDouble(String.format("Введите %s: ", nameOfFirst));
-                second = this.INPUT.askDouble(String.format("Введите %s: ", nameOfSecond));
-                break;
-            } case 1: {
-                first = params[0];
-                second = this.INPUT.askDouble(String.format("Введите %s: ", nameOfSecond));
-                break;
-            } default: {
-                first = params[0];
-                second = params[1];
-                break;
-            }
+        if (params.length == 0) {
+            first = this.input.askDouble(String.format("Введите %s: ", nameOfFirst));
+            second = this.input.askDouble(String.format("Введите %s: ", nameOfSecond));
+        } else if (params.length == 1) {
+            first = params[0];
+            second = this.input.askDouble(String.format("Введите %s: ", nameOfSecond));
+        } else {
+            first = params[0];
+            second = params[1];
         }
         return new double[]{first, second};
     }
-
 }

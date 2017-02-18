@@ -22,14 +22,14 @@ public class Addition extends UserAction {
     }
 
     /**
-     * Execute addition of two numbers
-     *
-     * @param params arguments that may be required for the arithmetic operation
+     * Execute addition of two numbers.
+     * @param params arguments that may be required for the arithmetic operation.
+     * @return result of addition.
      */
     public double execute(double... params) {
         params = super.getTwoCorrectParams("первое слагаемое", "второе слагаемое", params);
-        this.CALCULATOR.add(params[0], params[1]);
-        return this.CALCULATOR.getResult();
+        this.getCalculator().add(params[0], params[1]);
+        return this.getCalculator().getResult();
     }
 
 }

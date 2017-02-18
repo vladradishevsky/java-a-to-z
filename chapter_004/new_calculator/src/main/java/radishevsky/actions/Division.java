@@ -22,16 +22,16 @@ public class Division extends UserAction {
     }
 
     /**
-     * Execute division in Calculator
-     *
-     * @param params - arguments that may be required for the arithmetic operation
+     * Execute division in Calculator.
+     * @param params - arguments that may be required for the arithmetic operation.
+     * @return result.
      */
     public double execute(double... params) {
         params = super.getTwoCorrectParams("делимое", "делитель", params);
         while (params[1] == 0D) {
-            params[1] = this.INPUT.askDouble("Нельзя делить на нуль. Введите делитель: ");
+            params[1] = this.getInput().askDouble("Нельзя делить на нуль. Введите делитель: ");
         }
-        this.CALCULATOR.div(params[0], params[1]);
-        return this.CALCULATOR.getResult();
+        this.getCalculator().div(params[0], params[1]);
+        return this.getCalculator().getResult();
     }
 }

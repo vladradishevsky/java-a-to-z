@@ -11,26 +11,26 @@ import java.util.Scanner;
 public class ConsoleInput implements Input {
 
     /**
-     * Scanner to get data form console.
+     * Scanner to get data.
      */
-    private final Scanner SCANNER = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     /**
      * Ask user for a new line.
      *
-     * @param question - message to user that will be shown
+     * @param question - message to user that will be shown.
      * @return - text line from the user.
      */
     public String askLine(String question) {
         System.out.println(question);
 
-        return this.SCANNER.nextLine();
+        return this.scanner.nextLine();
     }
 
     /**
      * Ask user for a new double.
      *
-     * @param question - message to user that will be shown
+     * @param question - message to user that will be shown.
      * @return - double form the user.
      */
     public double askDouble(String question) {
@@ -52,7 +52,7 @@ public class ConsoleInput implements Input {
     /**
      * Ask user for a new integer.
      *
-     * @param question - message to user that will be shown
+     * @param question - message to user that will be shown.
      * @return - integer form the user.
      */
     public int askInt(String question) {

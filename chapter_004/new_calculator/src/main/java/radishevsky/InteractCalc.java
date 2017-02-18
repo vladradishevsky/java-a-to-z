@@ -1,7 +1,11 @@
 package radishevsky;
 
-import radishevsky.actions.*;
-import radishevsky.input.*;
+import radishevsky.actions.UserAction;
+import radishevsky.actions.Addition;
+import radishevsky.actions.Division;
+import radishevsky.actions.Multiplication;
+import radishevsky.actions.Subtraction;
+import radishevsky.input.Input;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
@@ -16,22 +20,22 @@ public class InteractCalc {
     /**
      * Action's storage.
      */
-    protected ArrayList<UserAction> actions = new ArrayList<UserAction>();
+    private ArrayList<UserAction> actions = new ArrayList<UserAction>();
 
     /**
      * Input to ask data from user.
      */
-    private final Input INPUT;
+    private final Input input;
 
     /**
      * PrintStream to output data to client.
      */
-    private final PrintStream OUTPUT;
+    private final PrintStream out;
 
     /**
      * Calculator which implements the basic arithmetic operations.
      */
-    private final Calculator DEFAULT_CALCULATOR;
+    private final Calculator defaultCalculator;
 
     /**
      * Action last time used.
@@ -50,9 +54,9 @@ public class InteractCalc {
      * @param defaultCalculator - calculator which implements the basic arithmetic operations.
      */
     public InteractCalc(Input input, PrintStream outputStream, Calculator defaultCalculator) {
-        this.INPUT = input;
-        this.OUTPUT = outputStream;
-        this.DEFAULT_CALCULATOR = defaultCalculator;
+        this.input = input;
+        this.out = outputStream;
+        this.defaultCalculator = defaultCalculator;
         this.fillActions();
     }
 
@@ -60,10 +64,10 @@ public class InteractCalc {
      * Fill the storage basic actions.
      */
     private void fillActions() {
-        this.addAction(new Addition(this.INPUT, this.DEFAULT_CALCULATOR, "сложение"));
-        this.addAction(new Subtraction(this.INPUT, this.DEFAULT_CALCULATOR, "вычитание"));
-        this.addAction(new Multiplication(this.INPUT, this.DEFAULT_CALCULATOR, "умножение"));
-        this.addAction(new Division(this.INPUT, this.DEFAULT_CALCULATOR, "деление"));
+        this.addAction(new Addition(this.input, this.defaultCalculator, "сложение"));
+        this.addAction(new Subtraction(this.input, this.defaultCalculator, "вычитание"));
+        this.addAction(new Multiplication(this.input, this.defaultCalculator, "умножение"));
+        this.addAction(new Division(this.input, this.defaultCalculator, "деление"));
     }
 
     /**
@@ -85,11 +89,10 @@ public class InteractCalc {
         double currentResult = 0d;
         this.showMenu();
         do {
-            currentKey = this.INPUT.askInt("Выберите действие: ");
+            currentKey = this.input.askInt("Выберите действие: ");
             if (currentKey < 0 || currentKey > this.actions.size()) {
                 continue;
-            }
-            else if (currentKey == 0 && this.lastAction != null) {
+            } else if (currentKey == 0 && this.lastAction != null) {
                 // repeat last action
                 currentResult = this.lastAction.execute(currentResult);
             } else {
@@ -101,7 +104,7 @@ public class InteractCalc {
                     }
                 }
             }
-            this.OUTPUT.printf("Результат: %s%n", currentResult);
+            this.out.printf("Результат: %s%n", currentResult);
             this.showMenu();
 
         } while (currentKey != this.quitKey);
@@ -113,21 +116,11 @@ public class InteractCalc {
      */
     private void showMenu() {
         if (this.lastAction != null) {
-            this.OUTPUT.printf("[%s]: повторить %s с полученным результатом.%n", 0, this.lastAction.getInfo());
+            this.out.printf("[%s]: повторить %s с полученным результатом.%n", 0, this.lastAction.getInfo());
         }
         for (UserAction action: this.actions) {
-            this.OUTPUT.printf("[%s]: %s.%n", action.getKey(), action.getInfo());
+            this.out.printf("[%s]: %s.%n", action.getKey(), action.getInfo());
         }
-        this.OUTPUT.printf("[%s]: выход из программы.%n", this.quitKey);
-    }
-
-    public static void main(String[] args) {
-
-        Calculator calculator = new Calculator();
-        Input input = new ConsoleInput();
-        PrintStream output = System.out;
-        InteractCalc menu = new InteractCalc(input, output, calculator);
-
-        menu.init();
+        this.out.printf("[%s]: выход из программы.%n", this.quitKey);
     }
 }
