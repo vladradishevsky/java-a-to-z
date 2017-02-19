@@ -41,7 +41,7 @@ public class InteractCalcTest {
              ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             System.setIn(bis);
             System.setOut(new PrintStream(bos, true));
-            new Start().currentProperties().init();
+            new Start().defaultProperties().init();
 
             assertThat(bos.toString().contains("Результат: 10.0"), is(true));
 
@@ -63,7 +63,7 @@ public class InteractCalcTest {
              ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             System.setIn(bis);
             System.setOut(new PrintStream(bos, true));
-            new Start().currentProperties().init();
+            new Start().defaultProperties().init();
 
             assertThat(bos.toString().contains("Результат: 0.0"), is(true));
 
@@ -85,7 +85,7 @@ public class InteractCalcTest {
              ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             System.setIn(bis);
             System.setOut(new PrintStream(bos, true));
-            new Start().currentProperties().init();
+            new Start().defaultProperties().init();
 
             assertThat(bos.toString().contains("Результат: 25.0"), is(true));
 
@@ -107,7 +107,7 @@ public class InteractCalcTest {
              ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             System.setIn(bis);
             System.setOut(new PrintStream(bos, true));
-            new Start().currentProperties().init();
+            new Start().defaultProperties().init();
 
             assertThat(bos.toString().contains("Результат: 1.0"), is(true));
 
@@ -129,7 +129,7 @@ public class InteractCalcTest {
              ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             System.setIn(bis);
             System.setOut(new PrintStream(bos, true));
-            new Start().currentProperties().init();
+            new Start().defaultProperties().init();
             boolean result = bos.toString().contains("Результат: 2.0")
                           && bos.toString().contains("Нельзя делить на нуль.");
 
@@ -153,7 +153,7 @@ public class InteractCalcTest {
              ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             System.setIn(bis);
             System.setOut(new PrintStream(bos, true));
-            new Start().currentProperties().init();
+            new Start().defaultProperties().init();
 
             assertThat(bos.toString().contains("Результат: 30.0"), is(true));
 

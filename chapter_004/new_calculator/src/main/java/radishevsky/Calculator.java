@@ -56,4 +56,12 @@ public class Calculator {
 	public double getResult() {
 		return this.result;
 	}
+
+	/**
+	 * Set last calculation result.
+	 * @param result - number to set.
+	 */
+	public void setResult(double result) {
+		this.result = result;
+	}
 }
