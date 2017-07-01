@@ -10,6 +10,7 @@
 	
 	<modules>
 		<module>new_calculator</module>
+        <module>product_storage</module>
 	</modules>
 
     
