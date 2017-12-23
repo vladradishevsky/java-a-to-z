@@ -6,37 +6,42 @@ import java.util.NoSuchElementException;
 public class EvenNumbersIterator implements Iterator {
     private final int[] values;
     private int index = 0;
-    private boolean hasNext;
+
 
     public EvenNumbersIterator(final int[] values) {
-        this.values = values;
-        if (this.values.length > 0) {
-            this.hasNext = true;
-        }
+        this.values = this.getOddIntArr(values);
     }
 
     public boolean hasNext() {
-        return this.hasNext;
+        return this.index < this.values.length;
     }
 
     public Object next() {
-        if (this.index < this.values.length) {
-            if (this.values[this.index] % 2 == 0) {
-                return //TODO
-            }
-        } else {
+        if (!this.hasNext()) {
             throw new NoSuchElementException();
         }
-        Object result = this.next();
-
-        return result;
+        return this.values[this.index++];
     }
 
     public void remove() {
         throw new UnsupportedOperationException();
     }
 
-    private boolean pass() {
-        return true;
+    private int[] getOddIntArr(int[] values) {
+        int oddCount = 0;
+        for (int num : values) {
+            if (num % 2 == 0) {
+                oddCount++;
+            }
+        }
+        int[] result = new int[oddCount];
+        int index = 0;
+        for (int num : values) {
+            if (num % 2 == 0) {
+                result[index++] = num;
+            }
+        }
+        return result;
     }
+
 }

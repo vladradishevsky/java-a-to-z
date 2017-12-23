@@ -24,15 +24,15 @@ public class MatrixIterator implements Iterator{
     }
 
     public Object next() {
-        if (this.hasNext()) {
+        if (!this.hasNext()) {
             throw new NoSuchElementException();
         }
         int result = this.values[this.arrayIndex][this.localIndex];
 
-        this.localIndex = this.localIndex + 1;
+        this.localIndex++;
         if (this.localIndex >= this.values[arrayIndex].length) {
             this.localIndex = 0;
-            this.arrayIndex = this.arrayIndex + 1;
+            this.arrayIndex++;
         }
 
         this.totalIndex++;
