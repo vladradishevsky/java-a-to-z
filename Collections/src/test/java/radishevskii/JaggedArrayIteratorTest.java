@@ -48,14 +48,4 @@ public class JaggedArrayIteratorTest {
         it.next();
     }
 
-    /*
-    @Test
-    public void test () {
-        //int[][] hello = {{1, 2}, {3, 4}};
-        //System.out.println(hello.length);
-        //JaggedArrayIterator test = new JaggedArrayIterator();
-        for (int index = 0; index < 3; index++) {
-            System.out.println(it.next());
-        }
-    }*/
 }

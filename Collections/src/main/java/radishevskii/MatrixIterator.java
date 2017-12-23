@@ -40,7 +40,7 @@ public class MatrixIterator implements Iterator{
     }
 
     public void remove() {
-
+        throw new UnsupportedOperationException();
     }
 
 }
