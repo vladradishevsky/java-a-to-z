@@ -15,27 +15,17 @@ public class MatrixIterator implements Iterator{
     private final int[][] values;
 
     /**
-     * Field of total length.
-     */
-    private int totalLength;
-
-    /**
      * Fields of indexes.
      */
-    private int totalIndex = 0;
     private int arrayIndex = 0;
     private int localIndex = 0;
 
     /**
      * Constructor of MatrixIterator.
-     * @param ints 2-dimensional array.
+     * @param values 2-dimensional array.
      */
-    public MatrixIterator(int[][] ints) {
-        this.values = ints;
-        this.totalLength = 0;
-        for (int[] value : values) {
-            this.totalLength += value.length;
-        }
+    public MatrixIterator(int[][] values) {
+        this.values = values;
     }
 
     /**
@@ -44,7 +34,13 @@ public class MatrixIterator implements Iterator{
      */
     @Override
     public boolean hasNext() {
-        return totalIndex < totalLength;
+
+        if (!(arrayIndex < values.length)) return false;
+        if (!(localIndex < values[arrayIndex].length)) {
+            this.localIndex = 0;
+            this.arrayIndex++;
+        }
+        return arrayIndex < values.length;
     }
 
     /**
@@ -56,16 +52,7 @@ public class MatrixIterator implements Iterator{
         if (!this.hasNext()) {
             throw new NoSuchElementException();
         }
-        int result = this.values[this.arrayIndex][this.localIndex];
-
-        this.localIndex++;
-        if (this.localIndex >= this.values[arrayIndex].length) {
-            this.localIndex = 0;
-            this.arrayIndex++;
-        }
-
-        this.totalIndex++;
-        return result;
+        return this.values[arrayIndex][localIndex++];
     }
 
     /**
