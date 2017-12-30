@@ -24,7 +24,7 @@ public class PrimeIterator implements Iterator {
      * @param values array of integers.
      */
     public PrimeIterator(final int[] values) {
-        this.values = this.getPrimeArray(values);
+        this.values = values;
     }
 
     /**
@@ -33,7 +33,11 @@ public class PrimeIterator implements Iterator {
      */
     @Override
     public boolean hasNext() {
-        return this.index < this.values.length;
+        while (this.index < this.values.length) {
+            if (this.isPrime(this.values[this.index])) return true;
+            this.index++;
+        }
+        return false;
     }
 
     /**
@@ -63,23 +67,5 @@ public class PrimeIterator implements Iterator {
             }
         }
         return true;
-    }
-
-    /**
-     * Inner method to filter non-prime numbers in array.
-     * @param values array of numbers.
-     * @return new array of numbers with only prime numbers.
-     */
-    private int[] getPrimeArray(int[] values) {
-        int[] tempArray = new int[values.length];
-        int primeCount = 0;
-        for (int value : values) {
-            if (this.isPrime(value)) {
-                tempArray[primeCount++] = value;
-            }
-        }
-        int[] result = new int[primeCount];
-        System.arraycopy(tempArray, 0, result, 0, primeCount);
-        return result;
     }
 }
