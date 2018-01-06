@@ -8,6 +8,9 @@ package radishevskii.generic;
  * @param <Role> type of elements to store.
  */
 public class RoleStore<Role> extends AbstractStore {
+    public RoleStore() {
+        super();
+    }
     public RoleStore(int size) {
         super(size);
     }

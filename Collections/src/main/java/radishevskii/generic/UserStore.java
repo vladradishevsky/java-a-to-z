@@ -9,6 +9,9 @@ package radishevskii.generic;
  * @param <User> type of elements to store.
  */
 public class UserStore<User> extends AbstractStore{
+    public UserStore() {
+        super();
+    }
     public UserStore(int size) {
         super(size);
     }

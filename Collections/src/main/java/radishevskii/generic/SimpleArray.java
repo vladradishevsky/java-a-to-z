@@ -1,5 +1,7 @@
 package radishevskii.generic;
 
+import java.util.Optional;
+
 /**
  * Class SimpleArray.
  * @param <T> type of element.
@@ -56,5 +58,13 @@ public class SimpleArray<T> {
      */
     public void delete(int index) {
         this.values[index] = null;
+    }
+
+    /**
+     * Return current size of object in array.
+     * @return length of object array.
+     */
+    public int size() {
+        return this.values.length;
     }
 }

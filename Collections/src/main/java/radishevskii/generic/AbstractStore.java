@@ -1,6 +1,7 @@
 package radishevskii.generic;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Class to store objects with string IDs.
@@ -12,9 +13,9 @@ import java.util.NoSuchElementException;
 public abstract class AbstractStore<T extends Base> implements Store<T> {
 
     /**
-     * Size of storage.
+     * Default size of storage.
      */
-    protected final int size;
+    protected static final int DEFAULT_STORAGE_CAPACITY = 10;
 
     /**
      * Base storage.
@@ -23,10 +24,16 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
 
     /**
      * Default constructor.
+     */
+    public AbstractStore() {
+        this(DEFAULT_STORAGE_CAPACITY);
+    }
+
+    /**
+     * Constructor.
      * @param size Size of storage.
      */
     public AbstractStore(int size) {
-        this.size = size;
         this.array = new SimpleArray<T>(size);
     }
 
@@ -47,14 +54,13 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      */
     @Override
     public boolean replace(String id, T model) {
-        boolean result;
-        try {
-            this.array.update(this.findIndexById(id), model);
-            result = true;
-        } catch (NoSuchElementException e) {
-            result = false;
+        int index = this.findIndexById(id);
+        if (index != -1) {
+            this.array.update(index, model);
+        } else {
+            throw new NoSuchElementException();
         }
-        return result;
+        return true;
     }
 
     /**
@@ -64,14 +70,13 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      */
     @Override
     public boolean delete(String id) {
-        boolean result;
-        try {
-            this.array.delete(this.findIndexById(id));
-            result = true;
-        } catch (NoSuchElementException e) {
-            result = false;
+        int index = this.findIndexById(id);
+        if (index != -1) {
+            this.array.delete(index);
+        } else {
+            throw new NoSuchElementException();
         }
-        return result;
+        return true;
     }
 
     /**
@@ -81,7 +86,12 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      */
     @Override
     public T findById(String id) {
-        return this.array.get(this.findIndexById(id));
+        int index = this.findIndexById(id);
+        if (index != -1) {
+            return this.array.get(index);
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     /**
@@ -89,16 +99,13 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      * @param id ID of object to find.
      * @return index in array.
      */
-    private Integer findIndexById(String id) {
-        Integer result = null;
-        for (int index = 0; index < this.size; index++) {
+    private int findIndexById(String id) {
+        int result = -1;
+        for (int index = 0; index < this.array.size(); index++) {
             if (this.array.get(index) != null && this.array.get(index).getId().equals(id)) {
                 result = index;
                 break;
             }
-        }
-        if (result == null) {
-            throw new NoSuchElementException(String.format("No element with current id: %s", id));
         }
         return result;
     }
