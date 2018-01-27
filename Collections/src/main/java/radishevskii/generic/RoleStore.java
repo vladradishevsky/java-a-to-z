@@ -5,9 +5,8 @@ package radishevskii.generic;
  *
  * @author Vladislav Radishevskii
  * @version 0.1
- * @param <Role> type of elements to store.
  */
-public class RoleStore<Role> extends AbstractStore {
+public class RoleStore extends AbstractStore<Role> {
     public RoleStore() {
         super();
     }

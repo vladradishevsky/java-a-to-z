@@ -6,9 +6,8 @@ package radishevskii.generic;
  *
  * @author Vladislav Radishevskii
  * @version 0.1
- * @param <User> type of elements to store.
  */
-public class UserStore<User> extends AbstractStore{
+public class UserStore extends AbstractStore<User>{
     public UserStore() {
         super();
     }
